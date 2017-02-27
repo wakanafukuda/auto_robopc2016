@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8" />
+<title>Accordionウィジェット</title>
+<link type="text/css" rel="stylesheet"
+  href="http://code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.min.css" />
+<script type="text/javascript"
+  src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript"
+  src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+<script type="text/javascript">
+$(function() {
+  $('#slider').slider({
+    min: 0,
+    max: 100,
+    step: 2,
+    value: 50,
+    change: function(e, ui) {
+      $('#num').val(ui.value);
+    },
+    create: function(e, ui) {
+      $('#num').val($(this).slider('option', 'value'));
+    }
+  });
+});
+</script>
+</head>
+<body>
+<input id="num" type="text" size="3" readonly />
+<div id="slider" style="width:300px;"></div>
+</body>
+</html>
+

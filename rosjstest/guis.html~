@@ -1,0 +1,121 @@
+<html>
+	  <head>
+	    <link rel="stylesheet" href="gui.css" type="text/css">
+	    <link type="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.min.css" />
+	    <script type="text/javascript" src="eventemitter2.js"></script>
+	    <script type="text/javascript" src="roslib.js"></script>
+	    <script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+	    <script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+	    <script type="text/javascript">
+	      var ros=new ROSLIB.Ros({
+	      url : "ws://localhost:9090"
+	      });
+		      
+	      ros.on("connection", function() {
+	      console.log("Connected");
+	      });
+	      
+	      ros.on("error", function(error) {
+	      console.log("error", error);
+	      });
+	      
+	      ros.on("close", function() {
+	      console.log("closed");
+	      });
+	      
+	      var talker=new ROSLIB.Topic({
+	      ros : ros, 
+	      name : "talker", 
+	      messageType : "std_msgs/String"
+	      });
+	
+	      talker.subscribe(function(msg){
+	      console.log("I heard : " + msg.data);
+	      document.Subscribed.ListenerS.value = msg.data;
+	      });
+	
+	      var sensors=new ROSLIB.Topic({
+	      ros : ros,
+	      name : "sensors",
+	      messageType : "msg2015/Sensors2015"
+	      });
+	
+	      sensors.subscribe(function(msg){
+	      console.log(msg.BV);
+	      document.Subscribed.ListenerB.value = msg.BV;
+	      document.Subscribed.ListenerC.value = msg.CO2;
+	      });
+
+	      function start(){
+	      var msg=new ROSLIB.Message({
+	      data : "start"
+	      });
+	      talker.publish(msg);
+	      }
+	      
+	      function stop(){
+	      var msg=new ROSLIB.Message({
+	      data : "stop"
+	      });
+	      talker.publish(msg);
+	      }
+	      
+	      function pause(){
+	      var msg=new ROSLIB.Message({
+	      data : "pause"
+	      });
+	      talker.publish(msg);
+	      }
+	      
+	      function victimignore(){
+	      var msg=new ROSLIB.Message({
+	      data : "ignore"
+	      });
+	      talker.publish(msg);
+	      }
+	
+	      function victimconfirm(){
+		
+	      }
+
+	      
+	    </script>
+	  </head>
+	  <body leftmargin="20" topmargin="20">
+	    <div class="blocka">
+	      <form name="ctrl1">
+		<input type="button" value="start" onClick="start()"><br><br>
+		<input type="button" value="stop" onClick="stop()"><br><br>
+		<input type="button" value="pause" onClick="pause()"><br>
+	      </form>
+	      <form name="Subscribed">
+		State:<br>
+		<input type="text" value="State" name="ListenerS"><br>
+		Battery:<br>
+		<input type="text" value="Battery" name="ListenerB"><br>
+		CO2:<br>
+		<input type="text" value="CO2" name="ListenerC"><br>
+		Temperature:<br>
+	       </form>
+	    </div>
+		    
+	    <div class="blockb">
+	      <font size="3">Piot This Victim?</font><br><br> 
+	      <form name="ctrl3">
+		<input type="button" value="victim ignore" onClick="victimignore()"><br><br>
+		<input type="button" value="victim confirm" onClick="victimconfirm()" disabled><br><br>
+	      </form>
+	    </div>
+		
+	    <div class="blockc">
+	      RGB_image<br>
+	      <img src="image.jpg" quality="30" width="200" height="150"></img><br>
+	      Depth_image<br>
+	      <img src="image.jpg" quality="30" width="200" height="150"></img><br>
+	      Thermo_image<br>
+	      <img src="image.jpg" quality="30" width="200" height="150"></img><br>
+	      <a href="mapping.html">Map</a>
+	    </div>
+		
+	  </body>
+</html>	

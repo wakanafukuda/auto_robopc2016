@@ -1,0 +1,6 @@
+<launch>
+	<node pkg="rosserial_python" name="serial_node_arduino_crawl" type="serial_node.py">
+	<param name="port" value="/dev/ttyUSB0" />
+	<param name="baud" value="57600" />	 
+	</node>
+</launch>

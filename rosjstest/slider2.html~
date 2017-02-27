@@ -1,0 +1,133 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html lang="ja">
+<head>
+
+<meta http-equiv="Content-Type" content="text/html; charset=shift_jis">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<title>slider</title>
+
+<style type="text/css">
+<!--
+.Style1{
+	position:			absolute;
+}
+.Style2{
+	position:			absolute;
+	font-weight:		bold;
+	margin:				0;
+	padding:			0.1em 0.2em;
+	border:				1px solid #009;
+}
+-->
+</style>
+
+<script language="JavaScript" type="text/javascript">
+<!--
+var iniX = 100;			//バーの初期位置(x)
+var iniY = 100;			//バーの初期位置(y)
+
+var dY = 10;			//バーに対するスライダーの表示位置(y)
+var dX1 = 11;			//バーに対するスライダーの表示位置(x,最も左)
+var dX2 = 202;			//バーに対するスライダーの表示位置(x,最も右)
+
+var valx = 230;			//バーに対する数値を表示する位置(x)
+var valy = 10;			//バーに対する数値を表示する位置(y)
+
+var minValue = 10;		//最小値
+var maxValue = 50;		//最大値
+var iniValue = 20;		//初期値
+
+var M_flag = false;
+var mdx,mdlayx,mmx,mmlayx;
+var xmax,xmin;
+
+function Init(){
+	dx = dX2 - dX1;
+	x = dx * ((iniValue - minValue) / (maxValue - minValue));
+	xmin = iniX + dX1;
+	xmax = iniX + dX2;
+	if(document.all){
+		document.all("iLf").onmousedown = Mdown;
+		document.onmouseup = Mup;
+		document.onmousemove = Mmove;
+		document.all("iLf").style.posLeft = xmin + x;
+		document.all("iLf").style.posTop = iniY + dY;
+		document.all("iLb").style.posLeft = iniX;
+		document.all("iLb").style.posTop = iniY;
+		document.all("iLv").style.posLeft = iniX + valx;
+		document.all("iLv").style.posTop = iniY + valy;
+		document.all("iLv").innerHTML = iniValue;
+	}else if(document.layers){
+	}else if(document.getElementById){
+		document.getElementById("iLf").onmousedown = Mdown;
+		document.onmouseup = Mup;
+		document.onmousemove = Mmove;
+		document.getElementById("iLf").style.left = xmin + x;
+		document.getElementById("iLf").style.top = iniY + dY;
+		document.getElementById("iLb").style.left = iniX;
+		document.getElementById("iLb").style.top = iniY;
+		document.getElementById("iLv").style.left = iniX + valx;
+		document.getElementById("iLv").style.top = iniY + valy;
+		document.getElementById("iLv").innerHTML = iniValue;
+	}
+}
+
+function Mdown(e){
+	if(document.all){
+		mdx = event.x;
+		mdlayx = document.all("iLf").style.posLeft;
+	}else if(document.layers){
+	}else if(document.getElementById){
+		mdx = parseInt(e.pageX);
+		mdlayx = parseInt(document.getElementById("iLf").style.left);
+	}
+	M_flag = true;
+	return false;
+}
+
+function Mup(e){
+	M_flag = false;
+	return false;
+}
+
+function Mmove(e){
+	if(document.all){
+		if(M_flag){
+			mmx = event.x;
+			mmlayx = (mmx - mdx) + mdlayx;
+			if(mmlayx < xmin) mmlayx = xmin;
+			if(mmlayx > xmax) mmlayx = xmax;
+			x = Math.floor((mmlayx - xmin) / dx * (maxValue - minValue) + minValue);
+			document.all("iLf").style.posLeft = mmlayx;
+			document.all("iLv").innerHTML = x;
+		}
+		event.returnValue = false;
+	}else if(document.layers){
+	}else if(document.getElementById){
+		if(M_flag){
+			mmx = parseInt(e.pageX);
+			mmlayx = (mmx - mdx) + mdlayx;
+			if(mmlayx < xmin) mmlayx = xmin;
+			if(mmlayx > xmax) mmlayx = xmax;
+			x = Math.floor((mmlayx - xmin) / dx * (maxValue - minValue) + minValue);
+			document.getElementById("iLf").style.left = mmlayx;
+			document.getElementById("iLv").innerHTML = x;
+		}
+		return false;
+	}
+}
+// -->
+</script>
+
+</head>
+
+<body onload="Init()">
+
+<div class="Style1" id="iLb"></div>
+<div class="Style1" id="iLf"></div>
+<div class="Style2" id="iLv"></div>
+
+</body>
+</html>
+

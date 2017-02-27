@@ -1,0 +1,14 @@
+<package>
+  <description brief="hector_test">
+
+     hector_test
+
+  </description>
+  <author>RoDEP</author>
+  <license>BSD</license>
+  <review status="unreviewed" notes=""/>
+  <url>http://ros.org/wiki/hector_test</url>
+
+</package>
+
+

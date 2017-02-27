@@ -1,0 +1,61 @@
+<html>
+<head>
+	<!-- ROS通信用JavaScriptライブラリの読み込み -->
+	<script type="text/javascript" src="eventemitter2.js"></script>
+	<script type="text/javascript" src="roslib.js"></script>
+
+	<!--
+	JavaScriptコードtest_ui.jsを読み込み
+	(var ros=new ROSLIB.Ros...の部分をファイル分割)
+	-->
+	<script type="text/javascript" src="test_ui.js"></script>
+
+	<!--
+	CSS(Webページの表示スタイルの設定ファイル)を読み込み
+	(別ファイルtest.cssも参照)
+	-->
+	<link rel="stylesheet" type="text/css" href="test_ui.css" media="all">
+</head>
+<body>
+	<!--
+	divタグで囲った部分に
+	userInterfaceという領域名を割り当て
+	領域内にはボタン2個とテキストボックス１個を配置
+	-->
+	<div class="userInterface">
+		This is a test of rosjs client library.	
+		<form name="test">
+			<input type="button" value="Cat" onClick="Cat()"><br>
+			<input type="button" value="Dog" onClick="Dog()">
+		</form>
+		<form name="Subscribed">
+			<input type="text" value="==No Topic Subscribed==" name="Listener">
+		</form>
+	</div>
+	
+	<!--
+	divタグで囲った部分に
+	usbCamera1という領域名を割り当て
+	領域内にはストリーミング映像を配置
+	-->
+	<div class="usbCamera1">
+		Image1<br>
+		<!--
+		ストリーミング映像
+		http://localhost:8080/stream?topic=画像の上がっているトピック名&quality=品質(1〜100)&width=画像幅&height=高さ
+		-->
+			<img src="http://localhost:8080/stream?topic=/static_image&quality=30&width=160&height=120"></img><br>
+	</div>
+
+	<div class="usbCamera2">
+		Image2<br>
+		<!--
+		ストリーミング映像
+		http://localhost:8080/stream?topic=画像の上がっているトピック名&quality=品質(1〜100)&width=画像幅&height=高さ
+		-->
+<!--
+			<img src="http://localhost:8080/stream?topic=/static_image&quality=30&width=160&height=120"></img><br>
+-->
+	</div>
+</body>
+</html>

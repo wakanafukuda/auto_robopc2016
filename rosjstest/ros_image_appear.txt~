@@ -1,0 +1,38 @@
+ROSでGUIメモ_画像表示
+
+１．動画サーバパッケージの準備
+sudo apt-get install ros-<distro>-web-video-server
+
+２．動画サーバを起動
+rosrun web_video_server web_video_server
+※http://wiki.ros.org/web_video_serverも参照
+
+３．画像をPublish
+image_pubパッケージ(フォルダも参照)
+	：1秒間に30回画像をstatic_imageトピックにPublishするサンプル
+	image1.jpegとimage2.jpegを作成し、サンプルの13行目・14行目の
+	....cv::imread()の第1引数を画像ファイルのパスにすると動きます
+
+４．ブラウザからアクセステスト
+http://localhost:8080/stream_viewer?topic=/static_image&quality=30&width=320&height=240
+
+５．HTMLから参照する
+サンプルtest_streaming.html
+※bodyタグ→headタグ→test_ui.js→test_ui.cssの順番で見ると分かりやすいと思います
+
+CSSの意図するところは、
+	http://www.htmq.com/csskihon/001.shtmlの説明を参照
+
+CSSを用いて段組みを作成する方法は、
+	http://allabout.co.jp/gm/gc/23836/を参照
+
+参考：本番用のGUIづくりのときは、
+	１）Start, Pause, Stopボタン
+	２）Confirm, Ignoreボタン
+	３）カメラ画像
+	４）ステータス表示(Robot Running...など)
+
+	の4つのdivをつくり、
+	
+	１，２，３で段組みを作り、４の手前で段組みを解除するかんじになると思います。
+	(段組みの解除の方法は調べてほしい：http://allabout.co.jp/gm/gc/23836/のリンクをたどればわかるはず)

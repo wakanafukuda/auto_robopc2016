@@ -1,0 +1,6 @@
+<launch>
+	<node pkg="rosserial_python" name="serial_node_arduino2" type="serial_node.py">
+	<param name="port" value="/dev/arduino2" />
+	<param name="baud" value="1000000" />	 
+	</node>
+</launch>

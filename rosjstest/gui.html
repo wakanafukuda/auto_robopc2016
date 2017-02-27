@@ -1,0 +1,176 @@
+<html>
+	  <head>
+	    <link rel="stylesheet" href="gui.css" type="text/css">
+	    <script type="text/javascript" src="eventemitter2.js"></script>
+	    <script type="text/javascript" src="roslib.js"></script>
+	    <script type="text/javascript">
+	      var ros=new ROSLIB.Ros({
+	      url : "ws://localhost:9090"
+	      });
+		      
+	      ros.on("connection", function() {
+	      console.log("Connected");
+	      });
+	      
+	      ros.on("error", function(error) {
+	      console.log("error", error);
+	      });
+	      
+	      ros.on("close", function() {
+	      console.log("closed");
+	      });
+	      
+	      var state=new ROSLIB.Topic({
+	      ros : ros, 
+	      name : "state", 
+	      messageType : "std_msgs/String"
+	      });
+	
+	      state.subscribe(function(msg){
+	      console.log("I heard : " + msg.data);
+	      ListenerS.value = msg.data;
+	      });
+
+	      var found_victim=new ROSLIB.Topic({
+	      ros : ros,
+	      name : "found_victim",
+	      messageType : "std_msgs/String"
+	      });
+
+	      var for_victim=new ROSLIB.Topic({
+	      ros : ros,
+	      name : "for_victim",
+	      messageType : "std_msgs/String"
+	      });
+
+	      var sensors=new ROSLIB.Topic({
+	      ros : ros,
+	      name : "sensors",
+	      messageType : "msg2015/Sensors2015"
+	      });
+	
+	      sensors.subscribe(function(msg){
+	      console.log(msg.BV);
+	      ListenerB.value = msg.BV;
+	      ListenerC.value = msg.CO2;
+	      meter.value = msg.BV;
+	      });
+
+	      function start(){
+	      var msg=new ROSLIB.Message({
+	      data : "start"
+	      });
+	      state.publish(msg);
+	      }
+	      
+	      function stop(){
+	      var msg=new ROSLIB.Message({
+	      data : "stop"
+	      });
+	      state.publish(msg);
+	      }
+	      
+	      function pause(){
+	      var msg=new ROSLIB.Message({
+	      data : "pause"
+	      });
+	      state.publish(msg);
+	      }
+
+	      var high_temp=new ROSLIB.Topic({
+	      ros : ros,
+	      name : "high_temp",
+	      messageType : "std_msgs/String"
+	      });
+
+	      var low_temp=new ROSLIB.Topic({
+	      ros : ros,
+	      name : "low_temp",
+	      messageType : "std_msgs/String"
+	      });
+
+	      function submit_temp(){
+	      var high_msg=new ROSLIB.Message({
+	      data : "std_msgs/String"
+	      });
+	      var low_msg=new ROSLIB.Message({
+	      data : "std_msgs/String"
+	      });
+	      high_msg.data=document.temperature.high_temperature.value;
+	      low_msg.data=document.temperature.low_temperature.value;
+	      high_temp.publish(high_msg);
+	      low_temp.publish(low_msg);
+	      }
+
+	      function sound_play(){
+	      sound.play();
+	      }
+
+	      function victimignore(){
+	      var msg=new ROSLIB.Message({
+	      data : "ignore"
+	      });
+	      found_victim.publish(msg);
+	      victim.value=msg.data;
+	      }
+
+	      for_victim.subscribe(function(msg){
+	      console.log(msg.data);
+		if(msg.data=="found"){
+		  sound_play();
+		}
+	      })
+
+	      function victimconfirm(){
+	      var msg=new ROSLIB.Message({
+	      data : "confirm"
+	      });
+	      found_victim.publish(msg);
+	      victim.value=msg.data;
+	      }
+
+	    </script>
+	  </head>
+	  <body leftmargin="20" topmargin="20">
+	    <div class="blocka">
+	      <form name="ctrl1">
+		<input type="button" value="start" onClick="start()"><br><br>
+		<input type="button" value="stop" onClick="stop()"><br><br>
+		<input type="button" value="pause" onClick="pause()"><br>
+	      </form>
+		State:&nbsp;<output id="ListenerS">--</output><br>
+		Battery:&nbsp;<output id="ListenerB">--</output>V<br>
+		<meter value="5" min="0" max="12" low="10" high="11" optimum="12" id="meter"></meter><br>
+		CO2:&nbsp;<output id="ListenerC">--</output><br>
+		Temperature:<br>
+	      <form name="temperature">
+		<input type="text" name="low_temperature" value="High Temperature" size="17"><br>
+		<input type="text" name="high_temperature" value="Low Temperature" size="17"><br>
+		<input type="button" value="submit" onClick="submit_temp()"><br>
+	      </form>
+	    </div>
+		    
+	    <div class="blockb">
+	      <font size="3">Piot This Victim?</font><br>
+	      [<output id="victim">--</output>]<br><br>
+	      <form name="ctrl3">
+		<input type="button" value="victim ignore" onClick="victimignore()"><br><br>
+		<input type="button" name="confirm" value="victim confirm" onClick="victimconfirm()" ><br><br>
+		<audio id="sound">
+		<source src="gui_snd.wav">
+		</audio><br>
+	      </form>
+	    </div>
+		
+	    <div class="blockc">
+	      RGB_image<br>
+	      <img src="/home/rodepoppc/catkin_ws/src/image_pub/include/image_pub/image1.jpeg" quality="30" width="160" height="120"></img><br>
+	      Depth_image<br>
+	      <img src="/home/rodepoppc/catkin_ws/src/image_pub/include/image_pub/image2.jpg" quality="30" width="160" height="120"></img><br>
+	      Thermo_image<br>
+	      <img src="/home/rodepoppc/catkin_ws/src/image_pub/include/image_pub/image1.jpeg" quality="30" width="160" height="120"></img><br>
+	      <a href="mapping.html">Map</a>
+	    </div>
+		
+	  </body>
+</html>	

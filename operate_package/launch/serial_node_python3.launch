@@ -1,0 +1,6 @@
+<launch>
+	<node pkg="rosserial_python" name="serial_node_arduino3" type="serial_node.py">
+	<param name="port" value="/dev/ArduinoMega3" />
+	<param name="baud" value="57600" />	 
+	</node>
+</launch>

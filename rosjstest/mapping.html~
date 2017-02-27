@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <script type="text/javascript" src="eventemitter2.js"></script>
+    <script type="text/javascript" src="roslib.js"></script>
+    <script type="text/javascript">
+    var ros=new ROSLIB.Ros({
+    url : "ws://localhost:9090"
+    });
+
+    ros.on("connection",function(){
+    console.log("Connected");
+    });
+
+    ros.on("error",function(error){
+    console.log("error",error);
+    });
+
+    ros.on("close",function(){
+    console.log("closed");
+    });
+
+    </script>
+  </head>
+  <body>
+    <img src="http://localhost:8080/stream_viewer?topic=/static_image&quality=30&width=160&height=120
+" ></img><br>
+  </body>
+</html>

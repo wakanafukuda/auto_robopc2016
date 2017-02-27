@@ -1,0 +1,7 @@
+<launch>
+	<node pkg="rosserial_python" name="serial_node" type="serial_node.py">
+	<remap from="/serial_node" to="serial_node/Arduino2" />
+	<param name="port" value="/dev/ArduinoMega1" />
+	<param name="baud" value="57600" />	 
+	</node>
+</launch>

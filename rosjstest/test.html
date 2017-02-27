@@ -1,0 +1,89 @@
+<html>
+<head>
+	<!-- ROS通信用JavaScriptライブラリの読み込み -->
+	<script type="text/javascript" src="eventemitter2.js"></script>
+	<script type="text/javascript" src="roslib.js"></script>
+
+	<!--
+	ROS通信の設定や、PublisherやSubscriberを作成するための
+	JavaScriptコード
+	-->
+	<script type="text/javascript">
+		// ROSの初期化
+		var ros=new ROSLIB.Ros({
+			url : "ws://localhost:9090"
+		});
+
+		ros.on("connection", function() {
+			console.log("Connected");
+		});
+		ros.on("error", function(error) {
+			console.log("error", error);
+		});
+		ros.on("close", function() {
+			console.log("closed");
+		});
+
+		// talkerトピックへのstd_msgs/String型Publisherを作成
+		// 
+		var talker = new ROSLIB.Topic({
+			ros : ros, 
+			name : "talker", 
+			messageType : "std_msgs/String"
+		});
+
+		// listenerトピックからのstd_msgs/String型Subscriberを作成
+		var listener = new ROSLIB.Topic({
+			ros : ros, 
+			name : "listener", 
+			messageType : "std_msgs/String"
+		});
+		// メッセージコールバック
+		listener.subscribe(function(msg) {
+			console.log("I heard : " + msg.data);
+			document.Subscribed.Listener.value = msg.data;
+		});
+
+		// Catボタンを押したときに呼び出される
+		function Cat() {
+			// Publisher talkerによって
+			// Meow-Meow!をPublish
+			var msg = new ROSLIB.Message({
+				data : "Meow-Meow!"
+			});
+			talker.publish(msg);
+		}
+		// Dogボタンを押したときに呼び出される
+		function Dog() {
+			// Publisher talkerによって
+			// Bow-wow!をPublish
+			var msg = new ROSLIB.Message({
+				data : "Bow-wow!"
+			});
+			talker.publish(msg);
+		}
+	</script>
+
+</head>
+<body>
+	This is a test of rosjs client library.	
+	<!-- testという名前のフォームを作成-->
+	<form name="test">
+		<!-- ボタンを２つ作成し、Cat, Dogというテキストを表示  -->
+		<!--
+		ボタンを押したときに呼ばれるJavaScript関数を、
+		Cat(), Dog()に指定
+		-->
+		<input type="button" value="Cat" onClick="Cat()"><br>
+		<input type="button" value="Dog" onClick="Dog()">
+	</form>
+	<!-- Subscribedという名前のフォームを作成 -->
+	<form name="Subscribed">
+		<!--
+		Listenerという名前のテキストボックスを作成し、
+		テキストボックスの中身を==No Topic...にする
+		-->
+		<input type="text" value="==No Topic Subscribed==" name="Listener">
+	</form>
+</body>
+</html>

@@ -1,0 +1,15 @@
+/* userInterface領域の表示設定 */
+div.userInterface {
+	float : left;/*続くテキストを右側に回りこませ、*/
+	width : 300;/*幅を300pixelとる*/
+}
+/* usbCamera1領域の表示設定 */
+div.usbCamera1 {
+	float : left;/*続くテキストを右側に回りこませ、*/
+	width : 200;/*幅を200pixelとる*/
+}
+/* usbCamera2領域の表示設定 */
+div.usbCamera2 {
+	float : left;/*続くテキストを右側に回りこませ、*/
+	width : 200;/*幅を200pixelとる*/
+}

@@ -1,0 +1,22 @@
+<html>
+<head>
+	<script type="text/javascript" src="/usr/share/javascript/jquery/jquery.js" />
+	<script type="text/javascript">
+
+		$(function(){
+			if($("#btn").prop('disabled')==true){
+				$("#btn").prop('disabled',false);
+			}else{
+				$("#btn").prop('disabled',true);
+			}
+		};
+
+	</script>
+</head>
+<body>
+	<form name="test">
+		<input type="button" name="btnChange" value="change">
+		<input type="button" name="btn" value="test_button" disabled>
+	</form>
+</body>
+</html>

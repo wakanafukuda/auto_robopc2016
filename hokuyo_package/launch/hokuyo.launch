@@ -1,0 +1,7 @@
+<launch>
+	<node pkg="hokuyo_node" name="hokuyo_node" type="hokuyo_node">
+        </node>
+	<include file="$(find freenect_launch)/launch/freenect.launch">
+        </include>
+
+</launch>

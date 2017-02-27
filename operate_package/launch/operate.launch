@@ -1,0 +1,4 @@
+<launch>
+	<node pkg="operate_package" name="operate_package" type="operate_package"></node>
+	<node pkg="exploration2015" name="exploration_node" type="exploration_node"></node>
+</launch>

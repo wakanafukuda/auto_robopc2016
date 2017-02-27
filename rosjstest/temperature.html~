@@ -1,0 +1,16 @@
+<html>
+  <head>
+  </head>
+
+  <body>
+    <font = "5">Rewrite Temperature.</font><br>
+    <label for = "t1">Low Temperature</label>
+    <input type = "text" name = "temp1" id = "t1"><br>
+    <label for = "t2">High Temperature</label>
+    <input type = "text" name = "temp2" id = "t2"><br>
+    <input type = "submit" value = "decide">
+    <input type = "reset" value = "reset">
+
+    <input type = "button" value = "return" onClick = "history.go(-1)">
+  </body>
+</html>

@@ -1,0 +1,50 @@
+ROSでGUIメモ ～ブラウザを使う方法
+
+１．必要なファイルとパッケージの準備
+※http://wiki.ros.org/roslibjs/Tutorials/BasicRosFunctionalityも参照
+
+ブラウザとROSの仲立ちパッケージrosbridgeのインストール
+	sudo apt-get install ros-indigo-rosbridge-server
+	
+	※rosbridge_websocketノードは特定のポートでクライアントを待ち受け、
+	接続したクライアントから「メッセージをPublishして」とか、
+	「メッセージをSubscribeして」とかいう依頼を受けます。
+	ブラウザからは直接roscoreにアクセスしてpublish / subscribeなどの動作をせず、
+	rosbridge_websocketに接続して間接的にROSと通信し、メッセージをpublish / subscribeします。
+
+作業用ディレクトリ(HTML版GUIを配置する場所)を作成
+	mkdir rosjstest
+
+Javascript(ブラウザ上で動くプログラミング言語)用ROSクライアントライブラリ
+	http://cdn.robotwebtools.org/EventEmitter2/current/eventemitter2.min.js
+	http://cdn.robotwebtools.org/roslibjs/current/roslib.min.js
+
+をダウンロードして作業用ディレクトリ(rosjstest)に保存
+
+２．HTMLでブラウザアプリを記述
+	同じフォルダにサンプルをアップしています(test.html)
+	作業用ディレクトリ(rosjstest)に保存
+
+	※サンプルHTMLはbody部分から読むと分かりやすいと思います
+	Javascriptについての基本的なことは：
+		http://www.pori2.net/js/index.htmlを参照
+
+３．プログラムを実行
+rosbridge
+roslaunch rosbridge-server rosbridge_websocket.launch
+
+!!Before roslaunch!!
+source /opt/ros/indigo/setup.bash
+
+After installing ROS and rosbridge, you need to make sure your system is aware of the packages. To set up your environment for ROS and rosbridge.
+
+1.roscd rosbridge_server //go to rosbridge_server
+2.roslaunch rosbridge_websocket.launch //do a roslaunch
+
+
+Webブラウザを起動し、２で書いたプログラムを起動
+roslaunchした端末でClient Connectedとか出てくれば成功
+rostopic echo talkerでtalkerトピックの中身を確認
+	ブラウザのボタンを押してMeow-Meow!とかBow-wow!とか出てくれば成功
+rostopic pub listener std_msgs/String helloでlistenerトピックに文字列をPublish
+	テキストボックスの中身が変化すれば成功

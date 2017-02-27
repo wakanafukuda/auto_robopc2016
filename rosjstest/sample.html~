@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Theming jQuery UI Slider</title>
+		<link rel="stylesheet" type="text/css" href="style.css">
+	</head>
+	<body>
+
+	<section>	
+		<span class="tooltip"></span> <!-- Tooltip -->
+		<div id="slider"></div> <!-- the Slider -->
+		<span class="volume"></span> <!-- Volume -->
+	</section>
+
+	<script src="jquery-1.7.2.min.js"></script>
+	<script src="jquery-ui-1.8.21.custom.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1.min.js"></script>
+	<script>
+		$(function() {
+
+			//Store frequently elements in variables
+			var slider  = $('#slider'),
+				tooltip = $('.tooltip');
+
+			//Hide the Tooltip at first
+			tooltip.hide();
+
+			//Call the Slider
+			slider.slider({
+				//Config
+				range: "min",
+				min: 1,
+				value: 35,
+
+				start: function(event,ui) {
+				    tooltip.fadeIn('fast');
+				},
+
+				//Slider Event
+				slide: function(event, ui) { //When the slider is sliding
+
+					var value  = slider.slider('value'),
+						volume = $('.volume');
+
+					tooltip.css('left', value).text(ui.value);  //Adjust the tooltip accordingly
+
+					if(value <= 5) { 
+						volume.css('background-position', '0 0');
+					} 
+					else if (value <= 25) {
+						volume.css('background-position', '0 -25px');
+					} 
+					else if (value <= 75) {
+						volume.css('background-position', '0 -50px');
+					} 
+					else {
+						volume.css('background-position', '0 -75px');
+					};
+
+				},
+
+				stop: function(event,ui) {
+				    tooltip.fadeOut('fast');
+				},
+			});
+
+		});
+	</script>
+	</body>
+</html>

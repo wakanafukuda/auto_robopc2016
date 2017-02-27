@@ -1,0 +1,116 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="gui.css" type="text/css">
+    <script type="text/javascript" src="eventemitter2.js"></script>
+    <script type="text/javascript" src="roslib.js"></script>
+    <script type="text/javascript">
+      var ros=new ROSLIB.Ros({
+      url : "ws://localhost:9090"
+      });
+	      
+      ros.on("connection", function() {
+      console.log("Connected");
+      });
+      
+      ros.on("error", function(error) {
+      console.log("error", error);
+      });
+      
+      ros.on("close", function() {
+      console.log("closed");
+      });
+      
+      var talker=new ROSLIB.Topic({
+      ros : ros, 
+      name : "talker", 
+      messageType : "std_msgs/String"
+      });
+
+      <!--
+	  talker.subscribe(function(msg){
+	  console.log("I heard : " + msg.data);
+	  document.Subscribed.Listener_b.value = msg.data;
+	  });
+	-->	
+
+      var listener=new ROSLIB.Topic({
+      ros : ros, 
+      name : "listener", 
+      messageType : "std_msgs/String"
+      });
+      
+      listener.subscribe(function(msg){
+      console.log("I heard : " + msg.data);
+      document.Subscribed.Listener.value = msg.data;
+      });
+      
+      function start(){
+      var msg=new ROSLIB.Message({
+      data : "state:start"
+      });
+      talker.publish(msg);
+      }
+      
+      function stop(){
+      var msg=new ROSLIB.Message({
+      data : "state:stop"
+      });
+      talker.publish(msg);
+      }
+      
+      function pause(){
+      var msg=new ROSLIB.Message({
+      data : "state:pause"
+      });
+      talker.publish(msg);
+      }
+      
+      function victimignore(){
+      var msg=new ROSLIB.Message({
+      data : "ignore"
+      });
+      talker.publish(msg);
+      }
+      
+    </script>
+  </head>
+  <body leftmargin="20" topmargin="20">
+    <div class="blocka">
+      <form name="ctrl1">
+	<input type="button" value="start" onClick="start()"><br><br>
+	<input type="button" value="stop" onClick="stop()"><br><br>
+	<input type="button" value="pause" onClick="pause()"><br>
+      </form>
+      <form name="Subscribed">
+	State:<br>
+	<input type="text" value="State" name="Listener"><br>
+	Battery:<br>
+	<input type="text" value="Battery"><br>
+	CO2:<br>
+	<input type="text" value="CO2"><br>
+	Temperature:<br>
+	<input type="text" value="LowTemperature"><br>
+	<input type="text" value="HighTemperature"><br>
+      </form>
+    </div>
+	    
+    <div class="blockb">
+      <font size="3">Piot This Victim?</font><br><br> 
+      <form name="ctrl3">
+	<input type="button" value="victim ignore" onClick="victimignore()"><br><br>
+	<input type="button" value="victim confirm" onClick="victimconfirm()" disabled><br><br>
+      </form>
+    </div>
+	
+    <div class="blockc">
+      RGB_image<br>
+      <img src="image.jpg" quality="30" width="200" height="150"></img><br>
+      Depth_image<br>
+      <img src="image.jpg" quality="30" width="200" height="150"></img><br>
+      Thermo_image<br>
+      <img src="image.jpg" quality="30" width="200" height="150"></img><br>
+      <a href="mapping.html">Map</a>
+    </div>
+	
+  </body>
+</html>

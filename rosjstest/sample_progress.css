@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!--
+	Copyright 2007-2009 futomi  http://www.html5.jp/
+
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+
+	  http://www.apache.org/licenses/LICENSE-2.0
+
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="ja" lang="ja">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Content-Language" content="ja" />
+<meta http-equiv="Content-Style-Type" content="text/css" />
+<meta http-equiv="Content-Script-Type" content="text/javascript" />
+<title>プログレスバー 動的描画テスト - jsライブラリ - HTML5.JP</title>
+<link href="sample_progress.css" type="text/css" rel="stylesheet" />
+<script type="text/javascript" src="rendering-mode.js"></script>
+<script type="text/javascript" src="../html5jp/progress.js"></script>
+<script type="text/javascript">
+(function () {
+window.onload = function() {
+	var p = {
+		to: 50
+	};
+	var o = new html5jp.progress("sample", p);
+	if( ! o ) { return; }
+	o.draw();
+	document.getElementById("set_val").onclick = function() {
+		var val = document.getElementById("val").value;
+		if( isNaN(val) ) { return; }
+		o.set_val(val);
+	};
+	document.getElementById("decr").onclick = function() {
+		o.decr(10);
+	};
+	document.getElementById("incr").onclick = function() {
+		o.incr(10);
+	};
+	document.getElementById("reset").onclick = function() {
+		o.reset();
+		document.getElementById("val").value = "";
+		document.getElementById("animation").value = "5";
+	};
+	document.getElementById("get_val").onclick = function() {
+		alert( o.get_val() );
+	};
+	document.getElementById("get_per").onclick = function() {
+		alert( o.get_per() );
+	};
+	document.getElementById("animation").onchange = function() {
+		o.set_param("animation", document.getElementById("animation").value);
+	};
+};
+})();
+</script>
+</head>
+<body>
+<h1>プログレスバー 動的描画テスト - jsライブラリ - HTML5.JP</h1>
+<div id="sample"></div>
+<p>
+	値を <input type="text" id="val" value="" size="4" /> に <button id="set_val">セット</button> する。
+</p>
+<p>
+	<button id="decr">10%減</button>
+	<button id="incr">10%増</button>
+	アニメーション速度：
+	<select id="animation">
+		<option value="0">0</option>
+		<option value="1">1</option>
+		<option value="2">2</option>
+		<option value="3">3</option>
+		<option value="4">4</option>
+		<option value="5" selected="selected">5</option>
+		<option value="6">6</option>
+		<option value="7">7</option>
+		<option value="8">8</option>
+		<option value="9">9</option>
+		<option value="10">10</option>
+	</select>
+</p>
+<p>
+	<button id="get_val">値を取得</button>
+	<button id="get_per">%を取得</button>
+	<button id="reset">リセット</button>
+</p>
+<p>rendering mode : <span id="rendering-mode">-</span></p>
+</body>
+</html>

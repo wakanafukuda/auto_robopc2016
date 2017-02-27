@@ -1,0 +1,10 @@
+<launch>
+<node pkg="rviz" name="rviz" type="rviz">
+</node>
+
+<include file="$(find hokuyo_package)/launch/hokuyo.launch">
+</include>
+
+<include file="$(find octomap_test)/launch/octomap.launch">
+</include>
+</launch>

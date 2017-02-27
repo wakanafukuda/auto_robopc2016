@@ -1,0 +1,30 @@
+<head>
+<link rel="text/css" rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/cupertino/jquery-ui.min.css" />
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+<script type="text/javascript">
+	      $(function() {
+  		$('#slider').slider({
+    		  min: 0,
+    		  max: 100,
+    		  step: 2,
+		  range: true,
+    		  values: [20,40],
+    		  change: function(e, ui) {
+		  $('#min').val(ui.values[0]);
+      		  $('#max').val(ui.values[1]);
+    		  },
+    		  create: function(e, ui) {
+      		  var values = $(this).slider('opition','values')
+		  $('#min').val(values[0]);
+		  $('#max').val(values[1]);
+    		  }
+  		});
+	      });
+</head>
+<body>
+<input id="min" type="text" size="3" readonly />
+<input id="max" type="text" size="3" readonly />
+<div id="slider" style="width:200px;"></div>
+</body>
+
